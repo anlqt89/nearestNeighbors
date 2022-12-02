@@ -96,11 +96,14 @@ def run_ai(filename):
 
   df1 = df1[['match', 'url', 'Position', 'Company', 'Location', 'Job_Description']]
   df1 = df1[0:10]
-  finFile = pd.DataFrame(df1)
-  # finFile.to_json("top10.js")
-  finFile.to_csv("top10.csv")
 
-  f = open('top10.js')
-  rs = json.load(f)
-  return rs
-# print(rs)
+  finFile = pd.DataFrame(df1)
+  res = json.dumps(finFile.to_dict('records'), indent=4)
+
+  with open("top10.json", "w") as outfile:
+      outfile.write(res)
+
+  with open('top10.json', 'r') as openfile:
+      json_object = json.load(openfile)
+
+  return json_object
